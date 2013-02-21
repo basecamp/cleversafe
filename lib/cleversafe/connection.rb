@@ -42,17 +42,21 @@ module Cleversafe
     end
 
     def vaults      
-      vaults = JSON.parse(@connection.get)['vaults']
+      vaults = JSON.parse(get(nil))['vaults']
       vaults.collect{|v| v['vault_name']}
     end
     
     def vault_exists?(vault_name)     
       begin
-        response = @connection[vault_name].get
+        response = get(vault_name)
         true
       rescue => e
         false
       end
+    end
+    
+    def get(path, options = {})
+      @connection[path].get options
     end
     
   end
