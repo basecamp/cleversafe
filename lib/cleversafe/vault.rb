@@ -10,11 +10,15 @@ module Cleversafe
     end
     
     def vault_metadata
-      JSON.parse(@connection.get(@name))
+      @metadata ||= JSON.parse(@connection.get(@name))
     end
     
     def bytes_used
       self.vault_metadata['vault_usage']['used_size']
+    end
+    
+    def object(objectname)
+      Cleversafe::Object.new(self, objectname)
     end
     
     def objects(params = {})
@@ -24,5 +28,10 @@ module Cleversafe
       options['X-Start-Id'] = params[:start_id] if params[:start_id]      
       @connection.get(@name, options)
     end
+    
+    def create_object(options = {})
+      Cleversafe::Object.new(self)
+    end
+    
   end
 end

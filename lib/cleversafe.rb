@@ -5,4 +5,5 @@
 
   $:.unshift(File.dirname(__FILE__))
   require 'cleversafe/vault'
+  require 'cleversafe/object'
   require 'cleversafe/connection'

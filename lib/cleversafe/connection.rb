@@ -1,6 +1,5 @@
 module Cleversafe
   class Connection
-    
     attr_reader   :username
     attr_accessor :password
     attr_accessor :host
@@ -57,6 +56,14 @@ module Cleversafe
     
     def get(path, options = {})
       @connection[path].get options
+    end
+    
+    def head(path, options = {})
+      @connection[path].head options
+    end
+    
+    def put(path, payload, options = {})
+      @connection[path].put payload, options
     end
     
   end
