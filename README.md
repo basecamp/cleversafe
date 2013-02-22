@@ -38,8 +38,7 @@ vault.object(object).etag
 File.open("downloaded.file", 'w') {|f| f.write(vault.object(object).data) }
 
 # upload object, don't use multipart, it is not supported
-upload_object = vault.create_object
-uploaded_object = upload_object.write File.new("upload.file", "r"), :multipart => false, 'X-Digest' => "md5" 
+uploaded_object = vault.create_object File.new("upload.file", "r"), :multipart => false, 'X-Digest' => "md5" 
 
 # uploaded object's digest
 uploaded_object[:id]
