@@ -7,6 +7,7 @@ module Cleversafe
     attr_accessor :vault
     attr_accessor :method
     
+    RestClient.log = "request.log"
     
     def initialize(*args)
       if args[0].is_a?(Hash)

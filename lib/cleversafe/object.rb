@@ -30,15 +30,5 @@ module Cleversafe
       self.object_metadata[:etag]
     end
     
-    def write(payload, options = {})
-      response = @connection.put("#{@vault}", payload, options)
-      digest_header = "x_content_digest"
-      if response.headers[:x_content_digest]
-        {:id => response.body, :x_content_digest => response.headers[:x_content_digest] }
-      else
-        response.body
-      end
-    end
-    
   end
 end

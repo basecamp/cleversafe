@@ -38,8 +38,14 @@ module Cleversafe
       end
     end
     
-    def create_object(options = {})
-      Cleversafe::Object.new(self)
+    def create_object(payload, options = {})
+      response = @connection.put("#{@name}", payload, options)
+      digest_header = "x_content_digest"
+      if response.headers[:x_content_digest]
+        {:id => response.body, :x_content_digest => response.headers[:x_content_digest] }
+      else
+        response.body
+      end
     end
     
     def delete_object(objectname)
