@@ -10,9 +10,9 @@ module Cleversafe
       @connection = vault.connection
     end
     
-    def data
+    def data(options ={})
       begin
-        @connection.get("#{@vault}/#{@name}").body
+        @connection.get("#{@vault}/#{@name}", options).body
       rescue RestClient::Exception => e
         raise "#{e.http_code.to_s}: Object #{objectname} does not exist" if (e.http_code.to_s == "404")
       end
