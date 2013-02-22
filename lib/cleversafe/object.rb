@@ -13,16 +13,16 @@ module Cleversafe
     def data
       begin
         @connection.get("#{@vault}/#{@name}").body
-      rescue => e
-        raise "Object #{@name} does not exist"
+      rescue RestClient::Exception => e
+        raise "#{e.http_code.to_s}: Object #{objectname} does not exist" if (e.http_code.to_s == "404")
       end
     end
     
     def object_metadata
       begin
         @object_metadata ||= @connection.head("#{@vault}/#{@name}").headers
-      rescue => e
-        raise "Object #{@name} does not exist"
+      rescue RestClient::Exception => e
+        raise "#{e.http_code.to_s}: Object #{objectname} does not exist" if (e.http_code.to_s == "404")
       end
     end
     

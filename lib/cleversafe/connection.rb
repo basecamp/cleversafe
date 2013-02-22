@@ -66,5 +66,9 @@ module Cleversafe
       @connection[path].put payload, options
     end
     
+    def delete(path)
+      @connection[path].delete
+    end
+    
   end
 end

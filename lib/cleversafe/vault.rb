@@ -29,8 +29,25 @@ module Cleversafe
       @connection.get(@name, options)
     end
     
+    def object_exists?(objectname)
+      begin
+        response = @connection.head("#{@name}/#{objectname}")
+        true
+      rescue => e
+        false
+      end
+    end
+    
     def create_object(options = {})
       Cleversafe::Object.new(self)
+    end
+    
+    def delete_object(objectname)
+      begin
+        @connection.delete("#{@name}/#{objectname}")
+      rescue RestClient::Exception => e
+        raise "#{e.http_code.to_s}: Object #{objectname} does not exist" if (e.http_code.to_s == "404")
+      end
     end
     
   end
