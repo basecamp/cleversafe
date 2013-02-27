@@ -25,8 +25,8 @@ module Cleversafe
       options = {}
       options['X-Operation'] = "list"
       options['X-List-Length-Limit'] = params[:limit] if params[:limit]
-      options['X-Start-Id'] = params[:start_id] if params[:start_id]      
-      @connection.get(@name, options)
+      options['X-Start-Id'] = params[:start_id] if params[:start_id]     
+      @connection.get(@name, options).split("\n")      
     end
     
     def object_exists?(objectname)
