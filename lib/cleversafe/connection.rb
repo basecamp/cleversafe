@@ -11,7 +11,7 @@ module Cleversafe
       if args[0].is_a?(Hash)
         options = args[0]
         @username = options[:username]
-        @password = options[:api_key]
+        @password = options[:password]
         @host = options[:host]
         @protocol = options[:protocol] || "http"
       else
