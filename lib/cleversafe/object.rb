@@ -11,14 +11,23 @@ module Cleversafe
       @name = objectname
       @connection = vault.connection
     end
-    
+
+    def delete(objectname, options={})
+      handle_errors do
+        @connection.delete("#{@vault}/#{@name}", options)
+      end
+    end
+
+    def exists?
+      metadata
+      true
+    rescue Error::NotFound
+      false
+    end
+
     def data(options={})
-      @connection.get("#{@vault}/#{@name}", options).to_s
-    rescue RestClient::Exception => e
-      if e.http_code.to_s == "404"
-        raise "#{e.http_code.to_s}: Object #{@name} does not exist"
-      else
-        raise
+      handle_errors do
+        @connection.get("#{@vault}/#{@name}", options).to_s
       end
     end
 
