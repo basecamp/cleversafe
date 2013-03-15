@@ -20,13 +20,14 @@ module Cleversafe
     def object(objectname)
       Cleversafe::Object.new(self, objectname)
     end
+    alias [] object
 
     def objects(params = {})
       options = {}
       options['X-Operation'] = "list"
       options['X-List-Length-Limit'] = params[:limit] if params[:limit]
       options['X-Start-Id'] = params[:start_id] if params[:start_id]
-      @connection.get(@name, options).split("\n")
+      @connection.get(@name, options).to_s.split("\n")
     end
 
     def create_object(payload, options = {})
