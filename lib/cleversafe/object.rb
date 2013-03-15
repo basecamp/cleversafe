@@ -2,7 +2,7 @@ require 'fileutils'
 
 module Cleversafe
   class Object
-    
+
     attr_reader :name
     attr_reader :vault
 
@@ -52,11 +52,11 @@ module Cleversafe
     def metadata
       @metadata ||= handle_errors { @connection.head("#{@vault}/#{@name}").headers }
     end
-    
+
     def etag
       metadata[:etag]
     end
-    
+
     private
 
     def handle_errors

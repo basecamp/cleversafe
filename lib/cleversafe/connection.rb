@@ -6,7 +6,7 @@ module Cleversafe
     attr_accessor :proto
     attr_accessor :vault
     attr_accessor :method
-        
+
     def initialize(*args)
       if args[0].is_a?(Hash)
         options = args[0]
@@ -20,18 +20,18 @@ module Cleversafe
         @host = args[2]
         @protocol = args[3] || "http"
       end
-      
+
       @connection ||= begin
         build_connection
       end
       return @connection
     end
-    
+
     def build_connection
       RestClient::Resource.new(base_url, :user => @username, :password => @password,
         :raw_response => true)
     end
-    
+
     def base_url
       "#{@protocol}://#{@host}/"
     end
@@ -40,12 +40,12 @@ module Cleversafe
       Cleversafe::Vault.new(self, name)
     end
 
-    def vaults      
+    def vaults
       vaults = JSON.parse(get(nil))['vaults']
       vaults.collect{|v| v['vault_name']}
     end
-    
-    def vault_exists?(vault_name)     
+
+    def vault_exists?(vault_name)
       begin
         response = get(vault_name)
         true
@@ -53,22 +53,22 @@ module Cleversafe
         false
       end
     end
-    
+
     def get(path, options = {})
       @connection[path].get options
     end
-    
+
     def head(path, options = {})
       @connection[path].head options
     end
-    
+
     def put(path, payload, options = {})
       @connection[path].put payload, options
     end
-    
+
     def delete(path)
       @connection[path].delete
     end
-    
+
   end
 end
