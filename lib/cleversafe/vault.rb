@@ -40,11 +40,10 @@ module Cleversafe
     
     def create_object(payload, options = {})
       response = @connection.put("#{@name}", payload, options)
-      digest_header = "x_content_digest"
       if response.headers[:x_content_digest]
-        {:id => response.body, :x_content_digest => response.headers[:x_content_digest] }
+        {:id => response.to_s, :x_content_digest => response.headers[:x_content_digest] }
       else
-        response.body
+        response.to_s
       end
     end
     

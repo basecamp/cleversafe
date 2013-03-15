@@ -28,7 +28,8 @@ module Cleversafe
     end
     
     def build_connection
-      RestClient::Resource.new(base_url, @username, @password)
+      RestClient::Resource.new(base_url, :user => @username, :password => @password,
+        :raw_response => true)
     end
     
     def base_url
