@@ -40,14 +40,12 @@ module Cleversafe
       end
     end
 
-    def object_metadata
-      handle_errors do
-        @object_metadata ||= @connection.head("#{@vault}/#{@name}").headers
-      end
+    def metadata
+      @metadata ||= handle_errors { @connection.head("#{@vault}/#{@name}").headers }
     end
     
     def etag
-      self.object_metadata[:etag]
+      metadata[:etag]
     end
     
     private

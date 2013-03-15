@@ -9,12 +9,12 @@ module Cleversafe
       @name = name
     end
     
-    def vault_metadata
+    def metadata
       @metadata ||= JSON.parse(@connection.get(@name))
     end
     
     def bytes_used
-      self.vault_metadata['vault_usage']['used_size']
+      metadata['vault_usage']['used_size']
     end
     
     def object(objectname)
