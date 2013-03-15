@@ -32,10 +32,12 @@ module Cleversafe
 
     def create_object(payload, options = {})
       response = @connection.put("#{@name}", payload, options)
+      id = response.to_s.strip
+
       if response.headers[:x_content_digest]
-        {:id => response.to_s, :x_content_digest => response.headers[:x_content_digest] }
+        {:id => id, :x_content_digest => response.headers[:x_content_digest] }
       else
-        response.to_s
+        id
       end
     end
 
