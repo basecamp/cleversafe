@@ -3,7 +3,7 @@ module Cleversafe
     attr_reader   :username
     attr_accessor :password
     attr_accessor :host
-    attr_accessor :proto
+    attr_accessor :protocol
     attr_accessor :vault
     attr_accessor :method
 
@@ -34,6 +34,13 @@ module Cleversafe
 
     def base_url
       "#{@protocol}://#{@host}/"
+    end
+
+    def url_for(vault, objectname, options={})
+      protocol = options.fetch(:protocol, @protocol)
+      host     = options.fetch(:host, @host)
+
+      "#{protocol}://#{host}/#{vault}/#{objectname}"
     end
 
     def vault(name)
