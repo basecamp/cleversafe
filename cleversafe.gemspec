@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.summary = "A Ruby API into Cleversafe's REST interface."
   s.author  = "John Williams"
   s.email   = "john@37signals.com"
-  s.version = "1.0.3"
+  s.version = "1.0.4"
 
   s.add_dependency 'rest-client'
 
