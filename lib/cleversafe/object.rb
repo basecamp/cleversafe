@@ -28,6 +28,10 @@ module Cleversafe
     rescue Error::NotFound
       false
     end
+    
+    def size
+      metadata[:content_length].to_i
+    end
 
     def data(options={})
       handle_errors do
