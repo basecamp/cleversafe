@@ -16,9 +16,9 @@ module Cleversafe
       @connection.url_for(@vault, @name, options)
     end
 
-    def delete(objectname, options={})
+    def delete
       handle_errors do
-        @connection.delete("#{@vault}/#{@name}", options)
+        @connection.delete("#{@vault}/#{@name}")
       end
     end
 
