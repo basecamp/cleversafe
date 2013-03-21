@@ -41,7 +41,7 @@ module Cleversafe
         begin
           yield response.file.open
         ensure
-          response.file.close
+          response.file.unlink
         end
       end
     end
@@ -60,7 +60,7 @@ module Cleversafe
     def etag
       metadata[:etag]
     end
-    
+
     def size
       metadata[:content_length].to_i
     end
