@@ -49,7 +49,8 @@ module Cleversafe
     def write_to(filename, options={})
       handle_errors do
         response = @connection.get("#{@vault}/#{@name}", options)
-        FileUtils.mv(response.file.path, filename)
+        FileUtils.cp(response.file.path, filename)
+        FileUtils.rm(response.file.path)
       end
     end
 
