@@ -14,11 +14,13 @@ module Cleversafe
         @password = options[:password]
         @host = options[:host]
         @protocol = options[:protocol] || "http"
+        @open_timeout = options[:open_timeout] || 10
       else
         @username = args[0]
         @password = args[1]
         @host = args[2]
         @protocol = args[3] || "http"
+        @open_timeout = args[4] || 10
       end
 
       @connection ||= begin
@@ -29,7 +31,7 @@ module Cleversafe
 
     def build_connection
       RestClient::Resource.new(base_url, :user => @username, :password => @password,
-        :raw_response => true)
+        :raw_response => true, :open_timeout => @open_timeout)
     end
 
     def base_url
