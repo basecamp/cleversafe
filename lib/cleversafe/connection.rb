@@ -1,9 +1,6 @@
 module Cleversafe
   class Connection
-    attr_reader   :username
-    attr_accessor :password
-    attr_accessor :host
-    attr_accessor :protocol
+    attr_reader :username, :password, :host, :protocol, :open_timeout
 
     def initialize(*args)
       if args[0].is_a?(Hash)
@@ -23,12 +20,12 @@ module Cleversafe
     end
 
     def base_url
-      "#{@protocol}://#{@host}/"
+      "#{protocol}://#{host}/"
     end
 
     def url_for(vault, objectname, options={})
-      protocol = options.fetch(:protocol, @protocol)
-      host     = options.fetch(:host, @host)
+      protocol = options.fetch(:protocol, protocol)
+      host     = options.fetch(:host, host)
 
       "#{protocol}://#{host}/#{vault}/#{objectname}"
     end
