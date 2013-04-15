@@ -40,12 +40,10 @@ module Cleversafe
     end
 
     def vault_exists?(vault_name)
-      begin
-        response = get(vault_name)
-        true
-      rescue => e
-        false
-      end
+      get(vault_name)
+      true
+    rescue RestClient::ResourceNotFound
+      false
     end
 
     def get(path, options = {})
