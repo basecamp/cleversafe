@@ -23,15 +23,7 @@ module Cleversafe
         @open_timeout = args[4] || 10
       end
 
-      @connection ||= begin
-        build_connection
-      end
-      return @connection
-    end
-
-    def build_connection
-      RestClient::Resource.new(base_url, :user => @username, :password => @password,
-        :raw_response => true, :open_timeout => @open_timeout)
+      @connection = build_connection
     end
 
     def base_url
@@ -79,5 +71,10 @@ module Cleversafe
       @connection[path].delete
     end
 
+    private
+      def build_connection
+        RestClient::Resource.new(base_url, :user => @username, :password => @password,
+          :raw_response => true, :open_timeout => @open_timeout)
+      end
   end
 end
