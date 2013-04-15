@@ -4,7 +4,6 @@ module Cleversafe
     attr_accessor :password
     attr_accessor :host
     attr_accessor :protocol
-    attr_accessor :method
 
     def initialize(*args)
       if args[0].is_a?(Hash)
