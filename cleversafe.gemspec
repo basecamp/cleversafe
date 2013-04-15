@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.email   = "john@37signals.com"
   s.version = "1.0.7"
 
-  s.add_dependency 'rest-client'
+  s.add_dependency 'rest-client', '~> 1.6.7'
 
-  s.files = Dir['lib/**/*']
+  s.files = Dir["#{File.dirname(__FILE__)}/**/*"]
 end
