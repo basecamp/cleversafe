@@ -4,7 +4,6 @@ module Cleversafe
     attr_accessor :password
     attr_accessor :host
     attr_accessor :protocol
-    attr_accessor :vault
     attr_accessor :method
 
     def initialize(*args)
@@ -22,8 +21,6 @@ module Cleversafe
         @protocol = args[3] || "http"
         @open_timeout = args[4] || 10
       end
-
-      @connection = build_connection
     end
 
     def base_url
@@ -56,25 +53,29 @@ module Cleversafe
     end
 
     def get(path, options = {})
-      @connection[path].get options
+      connection[path].get options
     end
 
     def head(path, options = {})
-      @connection[path].head options
+      connection[path].head options
     end
 
     def put(path, payload, options = {})
-      @connection[path].put payload, options
+      connection[path].put payload, options
     end
 
     def delete(path)
-      @connection[path].delete
+      connection[path].delete
     end
 
     private
-      def build_connection
-        RestClient::Resource.new(base_url, :user => @username, :password => @password,
-          :raw_response => true, :open_timeout => @open_timeout)
+      def connection
+        @connection ||= RestClient::Resource.new(base_url,
+          :user         => username,
+          :password     => password,
+          :open_timeout => open_timeout,
+          :raw_response => true
+        )
       end
   end
 end
