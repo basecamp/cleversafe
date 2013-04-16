@@ -24,7 +24,7 @@ module Cleversafe
     def exists?
       metadata
       true
-    rescue Error::NotFound
+    rescue Errors::NotFound
       false
     end
 
@@ -69,12 +69,8 @@ module Cleversafe
 
     def handle_errors
       yield
-    rescue RestClient::Exception => e
-      if (e.http_code.to_s == "404")
-        raise Error::NotFound, "object `#{name}' does not exist", caller[0..-2]
-      else
-        raise
-      end
+    rescue RestClient::ResourceNotFound
+      raise Cleversafe::Errors::NotFound, "object `#{name}' does not exist", caller[0..-2]
     end
   end
 end

@@ -1,5 +1,5 @@
 module Cleversafe
-  module Error
+  module Errors
     class Base < RuntimeError; end
     class NotFound < Base; end
   end
