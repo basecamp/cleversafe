@@ -3,8 +3,7 @@ require 'fileutils'
 module Cleversafe
   class Object
 
-    attr_reader :name
-    attr_reader :vault
+    attr_reader :vault, :name, :connection
 
     def initialize(vault, objectname = {})
       @vault = vault.name
@@ -13,12 +12,12 @@ module Cleversafe
     end
 
     def url(options={})
-      @connection.url_for(@vault, @name, options)
+      connection.url_for(vault, name, options)
     end
 
     def delete
       handle_errors do
-        @connection.delete("#{@vault}/#{@name}")
+        connection.delete("#{vault}/#{name}")
       end
     end
 
@@ -31,13 +30,13 @@ module Cleversafe
 
     def data(options={})
       handle_errors do
-        @connection.get("#{@vault}/#{@name}", options).to_s
+        connection.get("#{vault}/#{name}", options).to_s
       end
     end
 
     def open(options={})
       handle_errors do
-        response = @connection.get("#{@vault}/#{@name}", options)
+        response = connection.get("#{vault}/#{name}", options)
         begin
           yield response.file.open
         ensure
@@ -48,14 +47,14 @@ module Cleversafe
 
     def write_to(filename, options={})
       handle_errors do
-        response = @connection.get("#{@vault}/#{@name}", options)
+        response = connection.get("#{vault}/#{name}", options)
         FileUtils.cp(response.file.path, filename)
         FileUtils.rm(response.file.path)
       end
     end
 
     def metadata
-      @metadata ||= handle_errors { @connection.head("#{@vault}/#{@name}").headers }
+      @metadata ||= handle_errors { connection.head("#{vault}/#{name}").headers }
     end
 
     def etag
@@ -72,7 +71,7 @@ module Cleversafe
       yield
     rescue RestClient::Exception => e
       if (e.http_code.to_s == "404")
-        raise Error::NotFound, "object `#{@name}' does not exist", caller[0..-2]
+        raise Error::NotFound, "object `#{name}' does not exist", caller[0..-2]
       else
         raise
       end
