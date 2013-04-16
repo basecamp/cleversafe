@@ -3,12 +3,16 @@ require 'fileutils'
 module Cleversafe
   class Object
 
-    attr_reader :vault, :name, :connection
+    attr_reader :connection, :vault, :name
 
-    def initialize(vault, objectname = {})
-      @vault = vault.name
-      @name = objectname
+    def initialize(vault, name = {})
       @connection = vault.connection
+      @vault = vault.name
+      @name = name
+    end
+
+    def key
+      "#{vault}/#{name}"
     end
 
     def url(options={})
@@ -17,7 +21,7 @@ module Cleversafe
 
     def delete
       handle_errors do
-        connection.delete("#{vault}/#{name}")
+        connection.delete(key)
       end
     end
 
@@ -30,13 +34,13 @@ module Cleversafe
 
     def data(options={})
       handle_errors do
-        connection.get("#{vault}/#{name}", options).to_s
+        connection.get(key, options).to_s
       end
     end
 
     def open(options={})
       handle_errors do
-        response = connection.get("#{vault}/#{name}", options)
+        response = connection.get(key, options)
         begin
           yield response.file.open
         ensure
@@ -47,14 +51,16 @@ module Cleversafe
 
     def write_to(filename, options={})
       handle_errors do
-        response = connection.get("#{vault}/#{name}", options)
+        response = connection.get(key, options)
         FileUtils.cp(response.file.path, filename)
         FileUtils.rm(response.file.path)
       end
     end
 
     def metadata
-      @metadata ||= handle_errors { connection.head("#{vault}/#{name}").headers }
+      @metadata ||= handle_errors do
+        connection.head(key).headers
+      end
     end
 
     def etag
