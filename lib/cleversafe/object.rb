@@ -5,7 +5,8 @@ module Cleversafe
 
     attr_reader :connection, :vault, :name
 
-    def initialize(vault, name = {})
+    def initialize(vault, name)
+      raise ArgumentError, "name is required" unless name =~ /\S/
       @connection = vault.connection
       @vault = vault.name
       @name = name
