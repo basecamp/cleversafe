@@ -15,7 +15,7 @@ module Cleversafe
     end
 
     def base_url
-      "#{protocol}://#{host}"
+      "#{protocol}://#{host}/"
     end
 
     def url_for(vault, objectname, options={})
