@@ -3,15 +3,15 @@ module Cleversafe
     attr_reader :protocol, :host, :username, :password, :open_timeout, :ssl_client_cert, :ssl_client_key, :ssl_ca_file, :verify_ssl
 
     def initialize(options = {})
-      @protocol = options.fetch(:protocol, "http")
-      @host = options.fetch(:host)
-      @username = options.fetch(:username, nil)
-      @password = options.fetch(:password, nil)
-      @open_timeout = options.fetch(:open_timeout, 10)
-      @ssl_client_cert = options.fetch(:ssl_client_cert, nil)
-      @ssl_client_key = options.fetch(:ssl_client_key, nil)
-      @ssl_ca_file = options.fetch(:ssl_ca_file, nil)
-      @verify_ssl = options.fetch(:verify_ssl, nil)
+      @protocol         = options.fetch(:protocol, "http")
+      @host             = options.fetch(:host)
+      @username         = options.fetch(:username, nil)
+      @password         = options.fetch(:password, nil)
+      @open_timeout     = options.fetch(:open_timeout, 10)
+      @ssl_client_cert  = options.fetch(:ssl_client_cert, nil)
+      @ssl_client_key   = options.fetch(:ssl_client_key, nil)
+      @ssl_ca_file      = options.fetch(:ssl_ca_file, nil)
+      @verify_ssl       = options.fetch(:verify_ssl, nil)
     end
 
     def base_url
@@ -57,14 +57,14 @@ module Cleversafe
     private
       def connection
         @connection ||= RestClient::Resource.new(base_url,
-          :user         => username,
-          :password     => password,
-          :open_timeout => open_timeout,
-          :ssl_client_cert => ssl_client_cert,
-          :ssl_client_key => ssl_client_key,
-          :ssl_ca_file => ssl_ca_file,
-          :verify_ssl => verify_ssl,
-          :raw_response => true
+          :user             => username,
+          :password         => password,
+          :open_timeout     => open_timeout,
+          :ssl_client_cert  => ssl_client_cert,
+          :ssl_client_key   => ssl_client_key,
+          :ssl_ca_file      => ssl_ca_file,
+          :verify_ssl       => verify_ssl,
+          :raw_response     => true
         )
       end
   end
