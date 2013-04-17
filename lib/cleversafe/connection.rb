@@ -1,32 +1,24 @@
 module Cleversafe
   class Connection
-    attr_reader :username, :password, :host, :protocol, :open_timeout
+    attr_reader :protocol, :host, :username, :password, :open_timeout, :ssl_client_cert, :ssl_client_key, :ssl_ca_file, :verify_ssl
 
-    def initialize(*args)
-      if args[0].is_a?(Hash)
-        options = args[0]
-        @username = options[:username]
-        @password = options[:password]
-        @host = options[:host]
-        @protocol = options[:protocol] || "http"
-        @open_timeout = options[:open_timeout] || 10
-      else
-        @username = args[0]
-        @password = args[1]
-        @host = args[2]
-        @protocol = args[3] || "http"
-        @open_timeout = args[4] || 10
-      end
+    def initialize(options = {})
+      @protocol = options.fetch(:protocol, "http")
+      @host = options.fetch(:host)
+      @username = options.fetch(:username, nil)
+      @password = options.fetch(:password, nil)
+      @open_timeout = options.fetch(:open_timeout, 10)
+      @ssl_client_cert = options.fetch(:ssl_client_cert, nil)
+      @ssl_client_key = options.fetch(:ssl_client_key, nil)
+      @ssl_ca_file = options.fetch(:ssl_ca_file, nil)
+      @verify_ssl = options.fetch(:verify_ssl, nil)
     end
 
     def base_url
-      "#{protocol}://#{host}/"
+      "#{protocol}://#{host}"
     end
 
     def url_for(vault, objectname, options={})
-      protocol = options.fetch(:protocol, protocol)
-      host     = options.fetch(:host, host)
-
       "#{protocol}://#{host}/#{vault}/#{objectname}"
     end
 
@@ -68,6 +60,10 @@ module Cleversafe
           :user         => username,
           :password     => password,
           :open_timeout => open_timeout,
+          :ssl_client_cert => ssl_client_cert,
+          :ssl_client_key => ssl_client_key,
+          :ssl_ca_file => ssl_ca_file,
+          :verify_ssl => verify_ssl,
           :raw_response => true
         )
       end

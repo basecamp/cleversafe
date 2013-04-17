@@ -20,5 +20,7 @@ PLATFORMS
 
 DEPENDENCIES
   cleversafe!
+  json
   minitest
   rake
+  rest-client (~> 1.6.7)
