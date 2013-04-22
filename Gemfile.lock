@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cleversafe (1.0.8)
+    cleversafe (1.0.9)
       json
       rest-client (~> 1.6.7)
 
@@ -20,7 +20,5 @@ PLATFORMS
 
 DEPENDENCIES
   cleversafe!
-  json
   minitest
   rake
-  rest-client (~> 1.6.7)
