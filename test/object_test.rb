@@ -2,7 +2,8 @@ require 'cleversafe/test_helper'
 
 class ObjectTest < MiniTest::Unit::TestCase
   def setup
-    @vault = Cleversafe::Vault.new(Cleversafe::Connection.new, 'test')
+    connection = Cleversafe::Connection.new(:host => 'test.host')
+    @vault = Cleversafe::Vault.new(connection, 'test_vault')
   end
 
   def test_name_is_required
