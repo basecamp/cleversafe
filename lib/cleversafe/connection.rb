@@ -1,3 +1,6 @@
+require 'rest-client'
+require 'json'
+
 module Cleversafe
   class Connection
     attr_reader :protocol, :host, :username, :password, :open_timeout, :ssl_client_cert, :ssl_client_key, :ssl_ca_file, :verify_ssl
