@@ -46,14 +46,6 @@ module Cleversafe
       end
     end
 
-    def write_to(filename, options={})
-      handle_errors do
-        response = connection.get(key, options)
-        FileUtils.cp(response.file.path, filename)
-        FileUtils.rm(response.file.path)
-      end
-    end
-
     def metadata
       @metadata ||= handle_errors do
         connection.head(key).headers
