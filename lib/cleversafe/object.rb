@@ -35,14 +35,18 @@ module Cleversafe
 
     def data(options={})
       handle_errors do
-        open(options) { |io| io.read }
+        connection.get(key, options).to_s
       end
     end
 
-    def open(options = {}, &block)
+    def open(options={})
       handle_errors do
         response = connection.get(key, options)
-        response.file.open(&block)
+        begin
+          yield response.file.open
+        ensure
+          response.file.unlink
+        end
       end
     end
 
