@@ -34,9 +34,7 @@ module Cleversafe
     end
 
     def data(options={})
-      handle_errors do
-        connection.get(key, options).to_s
-      end
+      open(options) { |io| io.read }
     end
 
     def open(options={})
