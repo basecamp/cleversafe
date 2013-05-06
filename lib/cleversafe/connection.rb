@@ -3,26 +3,16 @@ require 'json'
 
 module Cleversafe
   class Connection
-    attr_reader :protocol, :host, :username, :password, :open_timeout, :ssl_client_cert, :ssl_client_key, :ssl_ca_file, :verify_ssl
-
-    def initialize(options = {})
-      @protocol         = options.fetch(:protocol, "http")
-      @host             = options.fetch(:host)
-      @username         = options.fetch(:username, nil)
-      @password         = options.fetch(:password, nil)
-      @open_timeout     = options.fetch(:open_timeout, 10)
-      @ssl_client_cert  = options.fetch(:ssl_client_cert, nil)
-      @ssl_client_key   = options.fetch(:ssl_client_key, nil)
-      @ssl_ca_file      = options.fetch(:ssl_ca_file, nil)
-      @verify_ssl       = options.fetch(:verify_ssl, nil)
+    def initialize(url, options = {})
+      @http = build_http_client(url, options)
     end
 
-    def base_url
-      "#{protocol}://#{host}/"
+    def url
+      @http.url
     end
 
-    def url_for(vault, objectname, options={})
-      "#{protocol}://#{host}/#{vault}/#{objectname}"
+    def url_for(*paths)
+      [ url, *paths ].join('/')
     end
 
     def vault(name)
@@ -42,33 +32,25 @@ module Cleversafe
     end
 
     def get(path, options = {})
-      connection[path].get options
+      @http[path].get options
     end
 
     def head(path, options = {})
-      connection[path].head options
+      @http[path].head options
     end
 
     def put(path, payload, options = {})
-      connection[path].put payload, options
+      @http[path].put payload, options
     end
 
     def delete(path)
-      connection[path].delete
+      @http[path].delete
     end
 
     private
-      def connection
-        @connection ||= RestClient::Resource.new(base_url,
-          :user             => username,
-          :password         => password,
-          :open_timeout     => open_timeout,
-          :ssl_client_cert  => ssl_client_cert,
-          :ssl_client_key   => ssl_client_key,
-          :ssl_ca_file      => ssl_ca_file,
-          :verify_ssl       => verify_ssl,
-          :raw_response     => true
-        )
+      def build_http_client(url, options = {})
+        defaults = { :open_timeout => 0.5 }
+        RestClient::Resource.new(url, defaults.merge(options).merge(:raw_response => true))
       end
   end
 end
