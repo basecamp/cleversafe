@@ -20,8 +20,10 @@ module Cleversafe
     end
 
     def vaults
-      vaults = JSON.parse(get(nil))['vaults']
-      vaults.collect{|v| v['vault_name']}
+      @vaults ||= begin
+        data = JSON.parse get('/').to_s
+        data['vaults'].map { |v| v['vault_name'] }
+      end
     end
 
     def vault_exists?(vault_name)

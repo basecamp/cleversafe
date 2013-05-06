@@ -8,15 +8,15 @@ module Cleversafe
     end
 
     def metadata
-      @metadata ||= JSON.parse(connection.get(name))
+      @metadata ||= JSON.parse connection.get(name).to_s
     end
 
     def bytes_used
       metadata['vault_usage']['used_size']
     end
 
-    def object(objectname)
-      Cleversafe::Object.new(self, objectname)
+    def object(key)
+      Cleversafe::Object.new(self, key)
     end
     alias [] object
 
@@ -38,6 +38,5 @@ module Cleversafe
         id
       end
     end
-
   end
 end
