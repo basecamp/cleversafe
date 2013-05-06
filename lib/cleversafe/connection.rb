@@ -21,17 +21,24 @@ module Cleversafe
 
     def vaults
       @vaults ||= begin
-        data = JSON.parse get('/').to_s
+        data = JSON.parse get.to_s
         data['vaults'].map { |v| v['vault_name'] }
       end
     end
 
-    def get(path, options = {})
-      @http[path].get options
+    def ping
+      head
+      true
+    rescue RestClient::Exception
+      false
     end
 
-    def head(path, options = {})
+    def head(path = '', options = {})
       @http[path].head options
+    end
+
+    def get(path = '', options = {})
+      @http[path].get options
     end
 
     def put(path, payload, options = {})
