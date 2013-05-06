@@ -16,8 +16,8 @@ module Cleversafe
       "#{vault}/#{name}"
     end
 
-    def url(options={})
-      connection.url_for(vault, name, options)
+    def url
+      connection.url_for(vault, name)
     end
 
     def delete
