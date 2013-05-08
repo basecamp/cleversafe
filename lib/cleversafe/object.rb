@@ -41,9 +41,12 @@ module Cleversafe
       handle_errors do
         response = connection.get(key, options)
         begin
-          yield response.file.open
+          file = response.file
+          file.open
+          file.binmode
+          yield file
         ensure
-          response.file.unlink
+          file.unlink
         end
       end
     end
