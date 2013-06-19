@@ -3,26 +3,26 @@ require 'fileutils'
 module Cleversafe
   class Object
 
-    attr_reader :connection, :vault, :name
+    attr_reader :vault, :key, :connection
 
-    def initialize(vault, name)
-      raise ArgumentError, "name is required" unless name =~ /\S/
+    def initialize(vault, key)
+      raise ArgumentError, "key is required" unless key =~ /\S/
+      @vault = vault
+      @key = key
       @connection = vault.connection
-      @vault = vault.name
-      @name = name
     end
 
-    def key
-      "#{vault}/#{name}"
+    def path
+      "#{vault.name}/#{key}"
     end
 
     def url
-      connection.url_for(vault, name)
+      connection.url_for(path)
     end
 
     def delete
       handle_errors do
-        connection.delete(key)
+        connection.delete(path)
       end
     end
 
@@ -39,7 +39,7 @@ module Cleversafe
 
     def open(options={})
       handle_errors do
-        response = connection.get(key, options)
+        response = connection.get(path)
         begin
           file = response.file
           file.open
@@ -53,7 +53,7 @@ module Cleversafe
 
     def metadata
       @metadata ||= handle_errors do
-        connection.head(key).headers
+        connection.head(path).headers
       end
     end
 
@@ -66,11 +66,10 @@ module Cleversafe
     end
 
     private
-
-    def handle_errors
-      yield
-    rescue RestClient::ResourceNotFound
-      raise Cleversafe::Errors::NotFound, "object `#{name}' does not exist", caller[0..-2]
-    end
+      def handle_errors
+        yield
+      rescue RestClient::ResourceNotFound
+        raise Cleversafe::Errors::NotFound, "object `#{key}' does not exist", caller[0..-2]
+      end
   end
 end
