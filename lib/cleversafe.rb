@@ -1,7 +1,8 @@
-require 'cleversafe/errors'
+require 'cleversafe/connection'
+require 'cleversafe/http_client'
 require 'cleversafe/vault'
 require 'cleversafe/object'
-require 'cleversafe/connection'
+require 'cleversafe/errors'
 
 require 'rest-client'
 

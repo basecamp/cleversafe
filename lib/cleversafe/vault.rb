@@ -20,12 +20,14 @@ module Cleversafe
     end
     alias [] object
 
-    def objects(params = {})
-      options = {}
-      options['X-Operation'] = "list"
-      options['X-List-Length-Limit'] = params[:limit] if params[:limit]
-      options['X-Start-Id'] = params[:start_id] if params[:start_id]
-      connection.get(name, options).to_s.split("\n")
+    def objects(options = {})
+      headers = {}
+
+      headers['X-Operation'] = 'list'
+      headers['X-Start-Id']  = options[:start_id] if options[:start_id]
+      headers['X-List-Length-Limit'] = options[:limit] if options[:limit]
+
+      connection.get(name, :headers => headers).to_s.split("\n")
     end
 
     def create_object(payload, options = {})

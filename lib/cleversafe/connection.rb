@@ -1,17 +1,14 @@
 require 'json'
+require 'forwardable'
 
 module Cleversafe
   class Connection
+    extend Forwardable
+
+    def_delegators :@http, :url, :url_for, :get, :head, :put, :delete
+
     def initialize(url, options = {})
-      @http = build_http_client(url, options)
-    end
-
-    def url
-      @http.url
-    end
-
-    def url_for(*paths)
-      [ url, *paths ].join('/')
+      @http = Cleversafe::HttpClient.new(url, options)
     end
 
     def vault(name)
@@ -19,39 +16,15 @@ module Cleversafe
     end
 
     def vaults
-      @vaults ||= begin
-        data = JSON.parse get.to_s
-        data['vaults'].map { |v| v['vault_name'] }
-      end
+      data = JSON.parse(get('/').to_s)
+      data['vaults'].map { |v| v['vault_name'] }
     end
 
     def ping
-      head
+      head '/'
       true
     rescue RestClient::Exception
       false
     end
-
-    def head(path = '', options = {})
-      @http[path].head options
-    end
-
-    def get(path = '', options = {})
-      @http[path].get options
-    end
-
-    def put(path, payload, options = {})
-      @http[path].put payload, options
-    end
-
-    def delete(path)
-      @http[path].delete
-    end
-
-    private
-      def build_http_client(url, options = {})
-        defaults = { :open_timeout => 0.5 }
-        RestClient::Resource.new(url, defaults.merge(options).merge(:raw_response => true))
-      end
   end
 end
