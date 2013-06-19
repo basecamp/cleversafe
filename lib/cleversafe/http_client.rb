@@ -35,7 +35,7 @@ module Cleversafe
 
     private
       def request(method, path, options = {})
-        options = @defaults.merge(options).merge(:method => method, :url => url_for(path), :raw_response => true)
+        options = @defaults.merge(options).merge(:method => method, :url => url_for(path))
         RestClient::Request.execute(options)
       end
   end

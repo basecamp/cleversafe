@@ -33,13 +33,13 @@ module Cleversafe
       false
     end
 
-    def data(options={})
+    def data(options = {})
       open(options) { |io| io.read }
     end
 
-    def open(options={})
+    def open(options = {})
       handle_errors do
-        response = connection.get(path)
+        response = connection.get(path, options.merge(:raw_response => true))
         begin
           file = response.file
           file.open
