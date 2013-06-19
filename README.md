@@ -47,10 +47,10 @@ uploaded_object[:id]
 uploaded_object[:x_content_digest]
 
 # uploaded object exists?
-vault.object_exists?(uploaded_object[:id])
+vault.object(uploaded_object[:id]).exists?
 
 # deleting the uploaded object
-vault.delete_object(uploaded_object[:id])
+vault.object(uploaded_object[:id]).delete
 
 ```
 
