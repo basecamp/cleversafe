@@ -10,47 +10,21 @@ This is a Ruby interface into the Cleversafe's SOH API.
 ## Todo
 * Support range requests for getting an object
 
-## Examples
+## Usage
 
 ```ruby
-#Setup Conection
-request = Cleversafe::Connection.new("USERNAME", "PASSWORD", "HOSTNAME")
+# Connect to Cleversafe
+connection = Cleversafe::Connection.new('http://127.0.0.1:1234')
 
-#Does a vault exist?
-request.vault_exists?("VAULTNAME")
+# Open a vault
+vault = connection.vault('pictures')
 
-# load vault
-vault = request.vault("VAULTNAME")
+# Upload, download, delete
+key = vault.create_object(open('~/cat.jpg'))
 
-# bytes used in vault
-vault.bytes_used
-
-# list objects in vault
-vault.objects(:limit => 10, :start_id => "1f1665dce23b515cedf29edaf1d033730000")
-
-# load object
-object = "1f1665dce23b515cedf29edaf1d033730000"
-
-# get etag of object
-vault.object(object).etag
-
-# download object
-File.open("downloaded.file", 'w') {|f| f.write(vault.object(object).data) }
-
-# upload object, don't use multipart, it is not supported
-uploaded_object = vault.create_object File.new("upload.file", "r"), :multipart => false, 'X-Digest' => "md5" 
-
-# uploaded object's digest
-uploaded_object[:id]
-
-# object's digest
-uploaded_object[:x_content_digest]
-
-# uploaded object exists?
-vault.object(uploaded_object[:id]).exists?
-
-# deleting the uploaded object
-vault.object(uploaded_object[:id]).delete
+vault[key].exists?
+vault[key].size
+vault[key].open { |io| ... }
+vault[key].delete
 
 ```
-
