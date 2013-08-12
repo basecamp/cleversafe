@@ -29,7 +29,7 @@ module Cleversafe
       request :put, path, options.merge(:payload => payload)
     end
 
-    def delete(path)
+    def delete(path, options = {})
       request :delete, path, options
     end
 
