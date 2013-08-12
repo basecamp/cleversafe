@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cleversafe (1.1.4)
+    cleversafe (1.1.5)
       json
       rest-client (~> 1.6.7)
 
