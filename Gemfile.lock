@@ -3,14 +3,16 @@ PATH
   specs:
     cleversafe (1.1.5)
       json
+      rack
       rest-client (~> 1.6.7)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    json (1.7.7)
-    mime-types (1.23)
+    json (1.8.0)
+    mime-types (1.25)
     minitest (4.5.0)
+    rack (1.5.2)
     rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)

@@ -9,5 +9,6 @@ class HttpClientTest < MiniTest::Unit::TestCase
     assert_equal 'http://example.com/a/b', client.url_for('/a/b')
     assert_equal 'http://example.com/a/b', client.url_for('a/b')
     assert_equal 'http://example.com/a/b', client.url_for('a', 'b')
+    assert_equal 'http://example.com/a%2Fb', client.url_for('a%2Fb')
   end
 end

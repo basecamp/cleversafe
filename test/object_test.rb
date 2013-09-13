@@ -11,4 +11,9 @@ class ObjectTest < MiniTest::Unit::TestCase
       Cleversafe::Object.new(@vault, '')
     end
   end
+
+  def test_path_is_escaped
+    object = Cleversafe::Object.new(@vault, 'foo/bar[1].png')
+    assert_equal 'test_vault/foo%2Fbar%5B1%5D.png', object.path
+  end
 end

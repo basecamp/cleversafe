@@ -1,14 +1,17 @@
+require 'rack/utils'
+
 module Cleversafe
   class Vault
-    attr_reader :connection, :name
+    attr_reader :connection, :name, :path
 
     def initialize(connection, name)
       @connection = connection
       @name = name
+      @path = Rack::Utils.escape_path name
     end
 
     def metadata
-      @metadata ||= JSON.parse(connection.get(name).to_s)
+      @metadata ||= JSON.parse(connection.get(path).to_s)
     end
 
     def usage
@@ -27,11 +30,11 @@ module Cleversafe
       headers['X-Start-Id']  = options[:start_id] if options[:start_id]
       headers['X-List-Length-Limit'] = options[:limit] if options[:limit]
 
-      connection.get(name, :headers => headers).to_s.split("\n")
+      connection.get(path, :headers => headers).to_s.split("\n")
     end
 
     def create_object(payload, options = {})
-      response = connection.put(name, payload, options)
+      response = connection.put(path, payload, options)
       id = response.to_s.strip
 
       if response.headers[:x_content_digest]
