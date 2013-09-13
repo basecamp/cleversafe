@@ -1,4 +1,4 @@
-require 'rack/utils'
+require 'cgi'
 
 module Cleversafe
   class Vault
@@ -7,7 +7,7 @@ module Cleversafe
     def initialize(connection, name)
       @connection = connection
       @name = name
-      @path = Rack::Utils.escape_path name
+      @path = CGI.escape name
     end
 
     def metadata

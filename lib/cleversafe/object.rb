@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'rack/utils'
+require 'cgi'
 
 module Cleversafe
   class Object
@@ -14,7 +14,7 @@ module Cleversafe
     end
 
     def path
-      "#{vault.path}/#{Rack::Utils.escape_path key}"
+      "#{vault.path}/#{CGI.escape(key)}"
     end
 
     def url
