@@ -34,14 +34,23 @@ module Cleversafe
     end
 
     def create_object(payload, options = {})
-      response = connection.put(path, payload, options)
-      id = response.to_s.strip
+      handle_errors do
+        response = connection.put(path, payload, options)
+        id = response.to_s.strip
 
-      if response.headers[:x_content_digest]
-        { :id => id, :x_content_digest => response.headers[:x_content_digest] }
-      else
-        id
+        if response.headers[:x_content_digest]
+          { :id => id, :x_content_digest => response.headers[:x_content_digest] }
+        else
+          id
+        end
       end
+    end
+
+    private
+    def handle_errors
+      yield
+    rescue RestClient::MethodNotAllowed
+      raise Cleversafe::Errors::VaultMisconfigured, "Vault has not been added to accessers.", caller[0..-2]
     end
   end
 end
