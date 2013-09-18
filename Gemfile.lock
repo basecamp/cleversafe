@@ -1,19 +1,26 @@
 PATH
   remote: .
   specs:
-    cleversafe (1.1.6)
+    cleversafe (1.1.8)
       json
       rest-client (~> 1.6.7)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.3.5)
+    crack (0.4.1)
+      safe_yaml (~> 0.9.0)
     json (1.8.0)
     mime-types (1.25)
     minitest (4.5.0)
     rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    safe_yaml (0.9.7)
+    webmock (1.7.10)
+      addressable (~> 2.2, > 2.2.5)
+      crack (>= 0.1.7)
 
 PLATFORMS
   ruby
@@ -22,3 +29,4 @@ DEPENDENCIES
   cleversafe!
   minitest
   rake
+  webmock (~> 1.7.6)
