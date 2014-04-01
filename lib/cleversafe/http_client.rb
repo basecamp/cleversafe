@@ -1,6 +1,6 @@
 module Cleversafe
   class HttpClient
-    DEFAULTS = { :open_timeout => 0.5 }
+    DEFAULTS = { :timeout => nil, :open_timeout => nil }
 
     attr_reader :url
 
