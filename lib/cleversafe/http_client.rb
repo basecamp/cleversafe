@@ -1,6 +1,12 @@
 module Cleversafe
   class HttpClient
-    DEFAULTS = { :timeout => nil, :open_timeout => nil }
+    # Disable HTTP client timeouts by default. Older versions of RestClient
+    # use a value of `-1` to disable timeouts; recent versions use `nil`.
+    if RestClient.version < '1.6.9'
+      DEFAULTS = { :timeout => -1, :open_timeout => -1 }
+    else
+      DEFAULTS = { :timeout => nil, :open_timeout => nil }
+    end
 
     attr_reader :url
 
