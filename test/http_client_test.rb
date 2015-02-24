@@ -1,6 +1,6 @@
 require 'cleversafe/test_helper'
 
-class HttpClientTest < MiniTest::Unit::TestCase
+class HttpClientTest < Minitest::Test
   def test_url_for
     client = Cleversafe::HttpClient.new('http://example.com')
 

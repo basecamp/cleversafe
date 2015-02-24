@@ -1,6 +1,6 @@
 require 'cleversafe/test_helper'
 
-class VaultTest < MiniTest::Unit::TestCase
+class VaultTest < Minitest::Test
   def setup
     @connection = Cleversafe::Connection.new('http://test.host')
   end

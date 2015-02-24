@@ -1,6 +1,6 @@
 require 'cleversafe/test_helper'
 
-class ConnectionTest < MiniTest::Unit::TestCase
+class ConnectionTest < Minitest::Test
   def test_truth
     assert true
   end
